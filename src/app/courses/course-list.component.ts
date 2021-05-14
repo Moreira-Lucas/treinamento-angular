@@ -1,5 +1,7 @@
+import { LEADING_TRIVIA_CHARS } from "@angular/compiler/src/render3/view/template";
 import { Component, OnInit } from "@angular/core";
 import { Course } from "./course";
+import { CouserService } from "./course.service";
 
 
 @Component({
@@ -10,33 +12,30 @@ import { Course } from "./course";
 
 
 export class CourseListComponent implements OnInit{
-  courses: Course[] = [];
+  filteredCourses:Course[] = [];
+  
+  _courses: Course[] = [];
+  _filterBy:string;
+
+  constructor(private courseService: CouserService){}
+
+  
+  
+
 
   ngOnInit(): void{
-    this.courses = [
-      {
-        id: 1,
-        name:'Angular: Forms',
-        imageURL:'/assets/images/forms.png',
-        price:99.99,
-        code:'XPS-8796',
-        duration:120,
-        rating:4.8,
-        releaseDate:'December, 2, 2019',
-      },
-      {
-        id: 2,
-        name:'Angular: Navigation',
-        imageURL:'/assets/images/http.png',
-        price:120.99,
-        code:'ZZL-8865',
-        duration:180,
-        rating:3.5,
-        releaseDate:'October, 2, 2020',
-      }
-    ];
+    this._courses = this.courseService.retrieveAll();
+    this.filteredCourses = this._courses; 
 }
 
+set filter(value:string){
+  this._filterBy= value;
+  this.filteredCourses = this._courses.filter((course: Course)=>course.name.toLocaleLowerCase().indexOf(this._filterBy.toLocaleLowerCase()) > -1)
+}
+
+get filter(){
+  return this._filterBy;
+}
 
 
 
