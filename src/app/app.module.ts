@@ -1,38 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
-import { CourseListComponent } from './courses/course-list.component';
-import { StarComponent } from './stars/star.component';
-import { ReplacePipe } from './pipe/replace.pipe';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { Error404Component } from './error-404/error-404.component';
-import { CourseInfoComponent } from './courses/course-info.component';
+import { CourseModule } from './courses/course.module';
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    CourseListComponent,
-    StarComponent,
-    ReplacePipe,
     NavBarComponent,
-    Error404Component,
-    CourseInfoComponent
+    Error404Component
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    RouterModule.forRoot([
-      {
-        path:'courses',
-        component:CourseListComponent
-      },
-      {
-        path:'courses/info/:id',
-        component:CourseInfoComponent
-      },
-      
+    HttpClientModule,
+    CourseModule,
+    RouterModule.forRoot([ 
       //Rotas padrão
       {
         path:'', redirectTo: 'courses', pathMatch: 'full'
@@ -40,7 +28,8 @@ import { CourseInfoComponent } from './courses/course-info.component';
       {
         path:'**', component:Error404Component
       },
-    ])
+    ]),
+    
   
   ],
   providers: [],
